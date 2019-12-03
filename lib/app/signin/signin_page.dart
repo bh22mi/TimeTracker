@@ -13,6 +13,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  
   Future<void> _signinAnonumously() async {
     try {
       await widget.auth.signInAnonymously();
@@ -27,6 +28,16 @@ class _SignInPageState extends State<SignInPage> {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  Future<void> _signinWithFacebook() async
+  {
+    try {
+      await widget.auth.signInWithFacebook();
+    } catch (e) {
+      print(e.toString());
+    }
+
   }
 
   @override
@@ -73,7 +84,7 @@ class _SignInPageState extends State<SignInPage> {
             height: 8.0,
           ),
           SocialSignInButton(
-            onPressed: () {},
+            onPressed: _signinWithFacebook,
             color: Color(0xFF334D92),
             text: 'Sigin in with Facebook',
             textColor: Colors.white,
