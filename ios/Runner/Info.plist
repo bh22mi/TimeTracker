@@ -47,8 +47,22 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.825164257218-n4etr1cl72gl0qi0plqf63d7todji085</string>
+                <string>fb997269373953533</string>
+
 			</array>
 		</dict>
 	</array>
+
+    <key>FacebookAppID</key>
+    <string>997269373953533</string>
+    <key>FacebookDisplayName</key>
+    <string>TimeTracker</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>fbapi</string>
+      <string>fb-messenger-share-api</string>
+      <string>fbauth2</string>
+      <string>fbshareextension</string>
+    </array>
 </dict>
 </plist>

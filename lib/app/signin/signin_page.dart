@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker_flutter_course/app/services/auth.dart';
+import 'package:time_tracker_flutter_course/app/signin/enail_signin_page.dart';
 import 'package:time_tracker_flutter_course/common_widgets/signin_button.dart';
 import 'package:time_tracker_flutter_course/common_widgets/social_signin_button.dart';
 
@@ -13,7 +14,6 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  
   Future<void> _signinAnonumously() async {
     try {
       await widget.auth.signInAnonymously();
@@ -30,14 +30,18 @@ class _SignInPageState extends State<SignInPage> {
     }
   }
 
-  Future<void> _signinWithFacebook() async
-  {
+  Future<void> _signinWithFacebook() async {
     try {
       await widget.auth.signInWithFacebook();
     } catch (e) {
       print(e.toString());
     }
+  }
 
+  void _signinWithEmail(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute<void>(
+        fullscreenDialog: true,
+        builder: (context) => EmailSigninPage(authBase: widget.auth)));
   }
 
   @override
@@ -47,12 +51,12 @@ class _SignInPageState extends State<SignInPage> {
         title: Text('Time Tracker'),
         elevation: 0.0,
       ),
-      body: _buildContent(),
+      body: _buildContent(context),
       backgroundColor: Colors.grey[200],
     );
   }
 
-  Widget _buildContent() {
+  Widget _buildContent(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(16),
       child: Column(
@@ -94,7 +98,7 @@ class _SignInPageState extends State<SignInPage> {
             height: 8.0,
           ),
           SignInButton(
-            onPressed: () {},
+            onPressed: () => _signinWithEmail(context),
             color: Colors.red[700],
             text: 'Sigin in with Email',
             textColor: Colors.white,

@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -17,6 +18,8 @@ abstract class AuthBase {
   Future<void> signOut();
   Future<User> signInWithGoogle();
   Future<User> signInWithFacebook();
+  Future<User> signInWithEmailandPassword(String emmail, String pwd);
+  Future<User> createUserWithEmailandPassword(String email, String passwprd);
 }
 
 class Auth implements AuthBase {
@@ -45,6 +48,22 @@ class Auth implements AuthBase {
     final authresult = await _firebaseAuth.signInAnonymously();
     final user = authresult.user;
     return _userfromfirebase(user);
+  }
+
+  @override
+  Future<User> signInWithEmailandPassword(String emmail, String pwd) async {
+    final authResult = await _firebaseAuth.signInWithEmailAndPassword(
+        email: emmail, password: pwd);
+    return _userfromfirebase(authResult.user);
+  }
+
+  @override
+  Future<User> createUserWithEmailandPassword(
+      String email, String passwprd) async {
+    final authResult = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: passwprd);
+
+    return _userfromfirebase(authResult.user);
   }
 
   @override
