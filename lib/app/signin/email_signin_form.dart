@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:time_tracker_flutter_course/app/services/auth.dart';
 import 'package:time_tracker_flutter_course/app/signin/validator.dart';
 import 'package:time_tracker_flutter_course/common_widgets/form_submit_button.dart';
 
+import 'package:time_tracker_flutter_course/common_widgets/platform_exception_alert_dialog.dart';
+
 enum EmailSignInFormType { signin, register }
 
 class EmailSignInForm extends StatefulWidget with EmailAndPasswordValidators {
-  final AuthBase authBase;
-
-  EmailSignInForm({@required this.authBase});
-
   @override
   _EmailSignInFormState createState() => _EmailSignInFormState();
 }
@@ -43,21 +43,36 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
     pwdEditingController.clear();
   }
 
+  @override
+  void dispose() {
+    emailEditingController.dispose();
+    pwdEditingController.dispose();
+    _emailfocusNode.dispose();
+    _pwdfocusNode.dispose();
+    super.dispose();
+  }
+
   void submit() async {
     setState(() {
       _submitted = true;
       isLoading = true;
     });
     try {
+      final auth = Provider.of<AuthBase>(context);
+
       await Future.delayed(Duration(seconds: 3));
       if (_formType == EmailSignInFormType.signin) {
-        await widget.authBase.signInWithEmailandPassword(_email, _pwd);
+        await auth.signInWithEmailandPassword(_email, _pwd);
       } else {
-        await widget.authBase.createUserWithEmailandPassword(_email, _pwd);
+        await auth.createUserWithEmailandPassword(_email, _pwd);
       }
       Navigator.of(context).pop();
-    } catch (e) {
+    } on PlatformException catch (e) {
       print(e.toString());
+      PlatformExceptionAlertDialog(
+        title: 'Sign in failed',
+        exception: e,
+      ).show(context);
     } finally {
       setState(() {
         isLoading = false;

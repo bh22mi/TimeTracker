@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker_flutter_course/app/services/auth.dart';
 import 'package:time_tracker_flutter_course/app/signin/email_signin_form.dart';
 
 class EmailSigninPage extends StatelessWidget {
-  final AuthBase authBase;
-
-  EmailSigninPage({@required this.authBase});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,10 +12,7 @@ class EmailSigninPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Card(
-              child: EmailSignInForm(
-            authBase: authBase,
-          )),
+          child: Card(child: EmailSignInForm()),
         ),
       ),
       backgroundColor: Colors.grey[200],
